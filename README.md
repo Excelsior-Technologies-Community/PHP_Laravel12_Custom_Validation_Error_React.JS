@@ -1,4 +1,4 @@
-# PHP_Laravel12_Custom_Validation_Error_Using_React.js
+# PHP_Laravel12_Custom_Validation_Error_React.js
 
 This project demonstrates **Custom Validation Errors** using **Laravel 12 + React.js (Vite)** with **web routes (not API)**. It is beginner‑friendly and uses **JSX files only** for React.
 
@@ -31,8 +31,8 @@ We will build a **Contact Form** with:
 ## 3. Create Laravel Project
 
 ```
-composer create-project laravel/laravel PHP_Laravel12_Custome_Validation_Error_Using_React.JS
-cd PHP_Laravel12_Custome_Validation_Error_Using_React.JS
+composer create-project laravel/laravel PHP_Laravel12_Custom_Validation_Error_React.JS
+cd PHP_Laravel12_Custom_Validation_Error_React.JS
 ```
 
 ### Configure Database: 
@@ -42,7 +42,7 @@ Open the `.env` file and update the database credentials:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=send_mail_using_query
+DB_DATABASE=custom_validation_error_react.js
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -50,7 +50,7 @@ DB_PASSWORD=
 Create the database in MySQL:
 
 ```
-CREATE DATABASE send_mail_using_query;
+CREATE DATABASE custom_validation_error_react.js;
 ```
 
 ---
@@ -433,10 +433,10 @@ After submit form show Message:
 
 ---
 
-## PHP_Laravel12_Custom_Validation_Error_Using_React.js – Folder Structure
+## PHP_Laravel12_Custom_Validation_Error_React.js – Folder Structure
 
 ```
-PHP_Laravel12_Custome_Validation_Error_Using_React.JS/
+PHP_Laravel12_Custom_Validation_Error_React.JS/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
