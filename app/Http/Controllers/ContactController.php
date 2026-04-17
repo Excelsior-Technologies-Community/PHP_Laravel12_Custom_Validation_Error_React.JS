@@ -43,4 +43,11 @@ class ContactController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+      // List all submitted contacts
+    public function list()
+    {
+        $contacts = Contact::all();
+        return view('contact_list', compact('contacts')); 
+    }
 }
