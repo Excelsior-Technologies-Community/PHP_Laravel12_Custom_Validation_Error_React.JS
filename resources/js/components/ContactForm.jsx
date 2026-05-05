@@ -12,8 +12,9 @@ export default function ContactForm() {
 
     const [errors, setErrors] = useState({});
     const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-    // Validate field dynamically
     const validateField = (name, value) => {
         let error = '';
 
@@ -37,6 +38,8 @@ export default function ContactForm() {
                 if(!value) error = 'Message cannot be empty';
                 else if(value.length < 10) error = 'Message must be 10 characters';
                 break;
+            default:
+                break;
         }
 
         setErrors(prev => ({ ...prev, [name]: error }));
@@ -45,8 +48,6 @@ export default function ContactForm() {
     const handleChange = e => {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
-
-        // Real-time validation on typing
         validateField(name, value);
     };
 
@@ -61,10 +62,12 @@ export default function ContactForm() {
         e.preventDefault();
         setErrors({});
         setSuccess(false);
+        setLoading(true);
 
         axios.post('/contact-store', form)
             .then(() => {
                 setSuccess(true);
+                setLoading(false);
                 setForm({
                     name: '',
                     email: '',
@@ -74,7 +77,8 @@ export default function ContactForm() {
                 });
             })
             .catch(err => {
-                if(err.response.status === 422){
+                setLoading(false);
+                if(err.response && err.response.status === 422){
                     setErrors(err.response.data.errors);
                 }
             });
@@ -93,7 +97,6 @@ export default function ContactForm() {
                     )}
 
                     <form onSubmit={submitForm}>
-                        {/* Name */}
                         <input 
                             className="form-control mb-1" 
                             name="name" 
@@ -103,7 +106,6 @@ export default function ContactForm() {
                         />
                         <small className="text-danger d-block mb-2">{errors.name}</small>
 
-                        {/* Email */}
                         <input 
                             className="form-control mb-1" 
                             name="email" 
@@ -113,19 +115,26 @@ export default function ContactForm() {
                         />
                         <small className="text-danger d-block mb-2">{errors.email}</small>
 
-                        {/* Password */}
-                        <input 
-                            type="password" 
-                            className="form-control mb-1" 
-                            name="password" 
-                            placeholder="Password" 
-                            value={form.password} 
-                            onChange={handleChange} 
-                        />
+                        <div className="input-group mb-1">
+                            <input 
+                                type={showPassword ? "text" : "password"} 
+                                className="form-control" 
+                                name="password" 
+                                placeholder="Password" 
+                                value={form.password} 
+                                onChange={handleChange} 
+                            />
+                            <button 
+                                type="button" 
+                                className="btn btn-outline-secondary" 
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? "Hide" : "Show"}
+                            </button>
+                        </div>
                         <small className="text-danger d-block mb-1">{errors.password}</small>
                         <small className="text-info d-block mb-2">Strength: {passwordStrength(form.password)}</small>
 
-                        {/* Confirm Password */}
                         <input 
                             type="password" 
                             className="form-control mb-1" 
@@ -136,18 +145,19 @@ export default function ContactForm() {
                         />
                         <small className="text-danger d-block mb-2">{errors.confirm_password}</small>
 
-                        {/* Message */}
                         <textarea 
                             className="form-control mb-1" 
                             name="message" 
                             placeholder="Message" 
                             value={form.message} 
                             onChange={handleChange} 
+                            rows="3"
                         ></textarea>
                         <small className="text-danger d-block mb-3">{errors.message}</small>
 
-                        {/* Submit Button */}
-                        <button className="btn btn-primary mt-2">Submit</button>
+                        <button className="btn btn-primary mt-2" disabled={loading}>
+                            {loading ? "Submitting..." : "Submit"}
+                        </button>
                     </form>
                 </div>
             </div>

@@ -3,8 +3,13 @@ import { createRoot } from 'react-dom/client';
 import ContactForm from './components/ContactForm';
 import axios from 'axios';
 
-// Set CSRF token for web routes
-axios.defaults.headers.common['X-CSRF-TOKEN'] = 
-    document.querySelector('meta[name="csrf-token"]').content;
+const csrfToken = document.querySelector('meta[name="csrf-token"]');
+if (csrfToken) {
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.content;
+}
 
-createRoot(document.getElementById('app')).render(<ContactForm />);
+const rootElement = document.getElementById('app');
+if (rootElement) {
+    const root = createRoot(rootElement);
+    root.render(<ContactForm />);
+}
