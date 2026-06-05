@@ -31,3 +31,4 @@ class Contact extends Model
         return $this->created_at->format('F j, Y, g:i a');
     }
 }
+
