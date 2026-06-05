@@ -14,11 +14,11 @@ class ContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|max:50|regex:/^[a-zA-Z\s]+$/',
             'email' => 'required|email|unique:contacts,email',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/',
             'confirm_password' => 'required|same:password',
-            'message' => 'required|min:10',
+            'message' => 'required|min:10|max:500',
         ];
     }
 
@@ -27,14 +27,18 @@ class ContactRequest extends FormRequest
         return [
             'name.required' => 'Name is mandatory',
             'name.min' => 'Name must be at least 3 characters',
+            'name.max' => 'Name cannot exceed 50 characters',
+            'name.regex' => 'Name can only contain letters and spaces',
             'email.required' => 'Email is required',
             'email.email' => 'Enter valid email address',
             'email.unique' => 'Email already exists',
             'password.required' => 'Password is required',
-            'password.min' => 'Password must be 6 characters',
+            'password.min' => 'Password must be at least 6 characters',
+            'password.regex' => 'Password must contain at least one letter and one number',
             'confirm_password.same' => 'Password does not match',
             'message.required' => 'Message cannot be empty',
-            'message.min' => 'Message must be 10 characters',
+            'message.min' => 'Message must be at least 10 characters',
+            'message.max' => 'Message cannot exceed 500 characters',
         ];
     }
 }
